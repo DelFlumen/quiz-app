@@ -6,7 +6,6 @@ import styled from "styled-components";
 const StyledListItemContent = styled.div`
   display: flex;
   justify-content: space-between;
-  gap: 2rem;
 `;
 
 const Variant = ({
