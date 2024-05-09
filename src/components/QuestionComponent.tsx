@@ -11,9 +11,19 @@ const StyledContainer = styled.div`
 `;
 
 const StyledList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  width: 60%;
   align-self: flex-start;
   padding: 0 5rem;
   cursor: pointer;
+
+  & > li {
+    width: 100%;
+    &:hover {
+      background-color: lightgray;
+    }
+  }
 `;
 
 const QuestionComponent = ({

@@ -7,7 +7,6 @@ const StyledListItemContent = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 2rem;
-  width: 100%;
 `;
 
 const Variant = ({
