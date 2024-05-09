@@ -1,7 +1,23 @@
-import React from "react";
+import { useState } from "react";
 import { Question } from "../mockedQuestions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import Variant from "./Variant";
 
-const QuestionComponent = ({ questionItem }: { questionItem: Question }) => {
+const QuestionComponent = ({
+  questionItem,
+  updateAnswers,
+}: {
+  questionItem: Question;
+  updateAnswers: (id: number, answer: number) => void;
+}) => {
+  const [isQuestionAnswered, setIsQuestionAnswered] = useState(false);
+
+  const handleAnswer = (id: number, answer: number) => {
+    updateAnswers(questionItem.id, answer);
+    setIsQuestionAnswered(true);
+  };
+
   return (
     <div
       style={{
@@ -13,9 +29,21 @@ const QuestionComponent = ({ questionItem }: { questionItem: Question }) => {
       }}
     >
       <h2>{questionItem.question}</h2>
-      <ul style={{ alignSelf: "flex-start", padding: "0 5rem" }}>
+      <ul
+        style={{
+          alignSelf: "flex-start",
+          padding: "0 5rem",
+          cursor: "pointer",
+        }}
+      >
         {questionItem.variants.map((variant) => (
-          <li>{variant}</li>
+          <Variant
+            questionItem={questionItem}
+            variant={variant}
+            updateAnswers={updateAnswers}
+            isQuestionAnswered={isQuestionAnswered}
+            setIsQuestionAnswered={setIsQuestionAnswered}
+          />
         ))}
       </ul>
     </div>

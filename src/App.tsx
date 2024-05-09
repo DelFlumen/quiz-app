@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./App.css";
 import QuestionComponent from "./components/QuestionComponent";
 import { mockedQuestions } from "./mockedQuestions";
 
@@ -27,9 +26,16 @@ function App() {
     }, 0);
   };
 
+  const updateAnswers = (id: number, answer: number) => {
+    setAnswers(
+      answers.map((answerItem) =>
+        answerItem.id === id ? { ...answerItem, answer } : answerItem
+      )
+    );
+  };
+
   return (
     <div
-      className="App"
       style={{
         display: "flex",
         flexDirection: "column",
@@ -39,13 +45,14 @@ function App() {
     >
       <h1>Quiz</h1>
       {isQuizDone ? (
-        <h2>Your grade: {getQuizResult()}</h2>
+        <h2>Your grade: {getQuizResult()} out of 100</h2>
       ) : (
         <QuestionComponent
           questionItem={
             mockedQuestions.find((quest) => quest.id === currQuestion) ||
             mockedQuestions[0]
           }
+          updateAnswers={updateAnswers}
         />
       )}
       <div>
@@ -59,7 +66,7 @@ function App() {
             'Next'
           </button>
         ) : (
-          <button>'Done'</button>
+          <button onClick={() => setIsQuizDone(true)}>'Done'</button>
         )}
       </div>
     </div>
