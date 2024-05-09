@@ -1,52 +1,45 @@
-import { useState } from "react";
+import styled from "styled-components";
 import { Question } from "../mockedQuestions";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import Variant from "./Variant";
+
+const StyledContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+`;
+
+const StyledList = styled.ul`
+  align-self: flex-start;
+  padding: 0 5rem;
+  cursor: pointer;
+`;
 
 const QuestionComponent = ({
   questionItem,
   updateAnswers,
+  answer,
 }: {
   questionItem: Question;
   updateAnswers: (id: number, answer: number) => void;
+  answer: number | null;
 }) => {
-  const [isQuestionAnswered, setIsQuestionAnswered] = useState(false);
-
-  const handleAnswer = (id: number, answer: number) => {
-    updateAnswers(questionItem.id, answer);
-    setIsQuestionAnswered(true);
-  };
-
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "30%",
-      }}
-    >
-      <h2>{questionItem.question}</h2>
-      <ul
-        style={{
-          alignSelf: "flex-start",
-          padding: "0 5rem",
-          cursor: "pointer",
-        }}
-      >
+    <StyledContainer>
+      <h2>{`${questionItem.id}. ${questionItem.question}`}</h2>
+      <StyledList>
         {questionItem.variants.map((variant) => (
           <Variant
+            key={`${questionItem.id}_${variant}`}
             questionItem={questionItem}
             variant={variant}
             updateAnswers={updateAnswers}
-            isQuestionAnswered={isQuestionAnswered}
-            setIsQuestionAnswered={setIsQuestionAnswered}
+            answer={answer}
           />
         ))}
-      </ul>
-    </div>
+      </StyledList>
+    </StyledContainer>
   );
 };
 

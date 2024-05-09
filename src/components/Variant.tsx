@@ -1,45 +1,39 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { Dispatch, useState } from "react";
 import { Question } from "../mockedQuestions";
+import styled from "styled-components";
+
+const StyledListItemContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  width: 100%;
+`;
 
 const Variant = ({
   updateAnswers,
   questionItem,
   variant,
-  isQuestionAnswered,
-  setIsQuestionAnswered,
+  answer,
 }: {
   updateAnswers: (id: number, answer: number) => void;
   questionItem: Question;
   variant: number;
-  isQuestionAnswered: boolean;
-  setIsQuestionAnswered: Dispatch<boolean>;
+  answer: number | null;
 }) => {
-  const [isAnswered, setIsAnswered] = useState(false);
+  const isVariantSelected = variant === answer;
 
   const handleAnswer = (id: number, answer: number) => {
-    updateAnswers(questionItem.id, answer);
-    setIsAnswered(true);
-    setIsQuestionAnswered(true);
+    updateAnswers(id, answer);
   };
 
   return (
     <>
-      <li
-        style={{ pointerEvents: isQuestionAnswered ? "none" : "auto" }}
-        onClick={() => handleAnswer(questionItem.id, variant)}
-      >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            gap: "2rem",
-          }}
-        >
+      <li onClick={() => handleAnswer(questionItem.id, variant)}>
+        <StyledListItemContent>
           {variant}
-          {isAnswered && <FontAwesomeIcon icon={faCheck} />}
-        </div>
+          {isVariantSelected && <FontAwesomeIcon icon={faCheck} />}
+        </StyledListItemContent>
       </li>
     </>
   );

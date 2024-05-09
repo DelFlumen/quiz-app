@@ -1,17 +1,28 @@
 import { useState } from "react";
 import QuestionComponent from "./components/QuestionComponent";
 import { mockedQuestions } from "./mockedQuestions";
+import styled from "styled-components";
 
 type Answer = {
   id: number;
   answer: number | null;
 };
 
+const StyledContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const initialAnswers = mockedQuestions.map((quest) => ({
+  id: quest.id,
+  answer: null,
+}));
+
 function App() {
   const [currQuestion, setCurrQuestion] = useState(1);
-  const [answers, setAnswers] = useState<Answer[]>(
-    mockedQuestions.map((quest) => ({ id: quest.id, answer: null }))
-  );
+  const [answers, setAnswers] = useState<Answer[]>(initialAnswers);
   const [isQuizDone, setIsQuizDone] = useState(false);
 
   const getQuizResult = (): number => {
@@ -26,6 +37,12 @@ function App() {
     }, 0);
   };
 
+  const handleRestart = () => {
+    setAnswers(initialAnswers);
+    setCurrQuestion(1);
+    setIsQuizDone(false);
+  };
+
   const updateAnswers = (id: number, answer: number) => {
     setAnswers(
       answers.map((answerItem) =>
@@ -35,14 +52,7 @@ function App() {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    <StyledContainer>
       <h1>Quiz</h1>
       {isQuizDone ? (
         <h2>Your grade: {getQuizResult()} out of 100</h2>
@@ -53,10 +63,15 @@ function App() {
             mockedQuestions[0]
           }
           updateAnswers={updateAnswers}
+          answer={
+            answers.find((answer) => answer.id === currQuestion)?.answer || null
+          }
         />
       )}
       <div>
-        {currQuestion > 1 ? (
+        {isQuizDone ? (
+          <button onClick={handleRestart}>Restart</button>
+        ) : currQuestion > 1 ? (
           <button onClick={() => setCurrQuestion((prevState) => prevState - 1)}>
             Prev
           </button>
@@ -65,11 +80,11 @@ function App() {
           <button onClick={() => setCurrQuestion((prevState) => prevState + 1)}>
             'Next'
           </button>
-        ) : (
+        ) : !isQuizDone ? (
           <button onClick={() => setIsQuizDone(true)}>'Done'</button>
-        )}
+        ) : null}
       </div>
-    </div>
+    </StyledContainer>
   );
 }
 
