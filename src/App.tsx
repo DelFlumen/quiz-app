@@ -69,10 +69,12 @@ function App() {
         />
       )}
       <div>
-        {isQuizDone ? (
-          <button onClick={handleRestart}>Restart</button>
-        ) : currQuestion > 1 ? (
-          <button onClick={() => setCurrQuestion((prevState) => prevState - 1)}>
+        {isQuizDone && <button onClick={handleRestart}>Restart</button>}
+        {!isQuizDone ? (
+          <button
+            disabled={currQuestion < 2}
+            onClick={() => setCurrQuestion((prevState) => prevState - 1)}
+          >
             Prev
           </button>
         ) : null}
