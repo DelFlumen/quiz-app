@@ -78,10 +78,10 @@ function App() {
         ) : null}
         {currQuestion < 10 ? (
           <button onClick={() => setCurrQuestion((prevState) => prevState + 1)}>
-            'Next'
+            Next
           </button>
         ) : !isQuizDone ? (
-          <button onClick={() => setIsQuizDone(true)}>'Done'</button>
+          <button onClick={() => setIsQuizDone(true)}>Done</button>
         ) : null}
       </div>
     </StyledContainer>
